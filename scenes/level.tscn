@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://b66psd56r6xrw"]
+
+[ext_resource type="PackedScene" uid="uid://bbyptgxpan0ym" path="res://scenes/player.tscn" id="1_kdxxd"]
+[ext_resource type="Script" path="res://scripts/spawner.gd" id="2_0ohqh"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="3_7o87b"]
+[ext_resource type="Script" path="res://scripts/game over.gd" id="4_eeyob"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_kdxxd")]
+position = Vector2(543, 297)
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2(1176, -5)
+script = ExtResource("2_0ohqh")
+
+[node name="Timer" type="Timer" parent="Spawner"]
+
+[node name="Control" type="Control" parent="."]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 645.0
+script = ExtResource("3_7o87b")
+
+[node name="ScoreText" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 115.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_eeyob")
+
+[node name="HighScore" type="Label" parent="Control/Panel"]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 133.0
+offset_right = 618.0
+offset_bottom = 237.0
+theme_override_font_sizes/font_size = 41
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuBtn" type="Button" parent="Control/Panel"]
+layout_mode = 0
+offset_left = 462.0
+offset_top = 280.0
+offset_right = 626.0
+offset_bottom = 322.0
+text = "Menu"
+
+[connection signal="timeout" from="Spawner/Timer" to="Spawner" method="_on_timer_timeout"]
+[connection signal="pressed" from="Control/Panel/MenuBtn" to="Control" method="_on_menu_btn_pressed"]

@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://cv0tl76uegabc"]
+
+[ext_resource type="Script" path="res://scripts/pipe.gd" id="1_2xnj4"]
+[ext_resource type="Texture2D" uid="uid://rkpxxbps4xhj" path="res://assets/pipe.png" id="1_eoiyj"]
+[ext_resource type="Script" path="res://scripts/obs.gd" id="2_gj13u"]
+[ext_resource type="AudioStream" uid="uid://cy3ofdtj87a76" path="res://assets/audio/point.wav" id="3_s31le"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7kuc"]
+size = Vector2(81, 382)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ilsix"]
+size = Vector2(89, 283)
+
+[node name="Obstacle" type="Node2D"]
+script = ExtResource("1_2xnj4")
+
+[node name="PipeAbove" type="StaticBody2D" parent="."]
+scale = Vector2(1, 1.145)
+script = ExtResource("2_gj13u")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="PipeAbove"]
+scale = Vector2(0.175, 0.175)
+texture = ExtResource("1_eoiyj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PipeAbove"]
+position = Vector2(-1.5, -2)
+shape = SubResource("RectangleShape2D_y7kuc")
+
+[node name="PipeBelow" type="StaticBody2D" parent="."]
+position = Vector2(0, 652)
+rotation = 3.14159
+scale = Vector2(1, 1.13)
+script = ExtResource("2_gj13u")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="PipeBelow"]
+scale = Vector2(0.175, 0.175)
+texture = ExtResource("1_eoiyj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PipeBelow"]
+position = Vector2(-1.5, -2)
+shape = SubResource("RectangleShape2D_y7kuc")
+
+[node name="ScoreTrigger" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreTrigger"]
+position = Vector2(0.5, 327.5)
+shape = SubResource("RectangleShape2D_ilsix")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_s31le")
+
+[connection signal="body_entered" from="ScoreTrigger" to="." method="_on_score_trigger_body_entered"]
